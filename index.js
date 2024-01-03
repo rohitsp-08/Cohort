@@ -9,12 +9,33 @@
 // /npm node pckage manager
 
 const express = require('express')
+var bodyParser = require('body-parser')
 const app = express()
 const port = 3000
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+function middleware1(req,res,next){
+    next();
+}
+
+app.use(bodyParser.json());
+
+function handlerforPage1(req,res){
+    // var counter=req.query.counter;
+    // here we passed the variable through a query in the route
+
+    // var counter=req.headers.counter;
+    // here we passed the variable through headers
+
+    var counter=req.body.counter;
+
+
+    var ans=sum(counter);
+    var t="The summation yields"+ ans;
+
+    res.send(t);
+}
+
+app.post('/page1', handlerforPage1);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
