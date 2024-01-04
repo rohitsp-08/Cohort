@@ -26,16 +26,33 @@ function handlerforPage1(req,res){
     // var counter=req.headers.counter;
     // here we passed the variable through headers
 
-    var counter=req.body.counter;
+    var counter=req.query.counter;
 
+    var t=sum(counter);
+    var u=Mul(counter);
 
-    var ans=sum(counter);
-    var t="The summation yields"+ ans;
+    var ansObj={
+        x:t,
+        y:u,
+    };
 
-    res.send(t);
+    res.status(200).send(ansObj);
 }
 
-app.post('/page1', handlerforPage1);
+app.get('/page1', handlerforPage1);
+
+function getPage(req,res){
+    res.send(`<head>
+    <title>
+        Hello from HTML
+    </title>
+</head>
+<body>
+    <b> This the body from the html file.</b>
+</body>`)
+}
+
+app.get('/',getPage);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
@@ -43,12 +60,19 @@ app.listen(port, () => {
 
 function sum(x){
     var s=0;
-    for(var i=0;i<x;i++){
+    for(var i=1;i<=x;i++){
         s+=i;
     }
     return s;
 }
+function Mul(x){
+    var answer=1;
+    for(var i=1;i<=x;i++){
+        answer*=i;
+    }
+    return answer;
+}
 
-var t=sum(100);
+// var t=sum(100);
 
-console.log(t);
+// console.log(t);
